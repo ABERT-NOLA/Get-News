@@ -1,7 +1,8 @@
-from flask import render_template
 from app import app
+from .requests import get_news,get_news,search_news
+from flask import render_template,request,redirect,url_for
 
-# Views
+    # Views
 @app.route('/')
 def index():
 
@@ -9,21 +10,16 @@ def index():
     View root page function that returns the index page and its data
     '''
 
-    title = 'Home - Welcome to The best Movie Review Website Online'
-    return render_template('index.html', title = title)
+    # Getting popular news
+    trending_news = get_news('trending')
+    highlights_news = get_news('highlights')
+    live_news = get_news('live')
 
-    from .request import get_movies
+    title = 'Home - You can view the latest news'
 
-@app.route('/')
-def index():
+    search_news = request.args.get('news_query')
 
-    '''
-    View root page function that returns the index page and its data
-    '''
-
-    # Getting popular movie
-    popular_movies = get_movies('popular')
-    upcoming_movie = get_movies('upcoming')
-    now_showing_movie = get_movies('now_playing')
-    title = 'Home - Welcome to The best Movie Review Website Online'
-    return render_template('index.html', title = title, popular = popular_movies, upcoming = upcoming_movie, now_showing = now_showing_movie )
+    if search_news:
+        return redirect(url_for('search',news_name=search_news))
+    else:
+        return render_template('index.html', title = title, popular = trending_news, highlights = highlights_news, live = live_news )
