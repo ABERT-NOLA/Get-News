@@ -158,4 +158,4 @@ As a user I would like to:
 * Flask
 
 ## License
-MIT &copy;2017 [Mary Ng'ang'a](https://github.com/marynganga/)
+MIT &copy;2020
