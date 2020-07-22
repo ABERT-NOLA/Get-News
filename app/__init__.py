@@ -1,5 +1,5 @@
 from flask import Flask
-from config import DevConfig
+from app.config import DevConfig
 from flask_bootstrap import Bootstrap
 from app import views
 from app import error
@@ -16,11 +16,13 @@ app.config.from_pyfile("config.py")
 # Initializing Flask Extensions
 bootstrap = Bootstrap(app)
 
-    # register a blueprint
-    from .main import main as main_blueprint
-    app.register_blueprint(main_blueprint)
-    # setup config
-    from .requests import configure_request
-    configure_request(app)
+# register a blueprint
+from .main import main as main_blueprint
+app.register_blueprint(main_blueprint)
+# setup config
+from .requests import configure_request
+configure_request(app)
 
-    return app
+def create_app():
+   app=Flask(__name__)
+   return app

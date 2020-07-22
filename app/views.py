@@ -1,5 +1,5 @@
-from app import app
-from .requests import get_news,get_news,search_news
+#from app import app
+from .request import get_news,get_news,search_news
 from flask import render_template,request,redirect,url_for
 
     # Views
