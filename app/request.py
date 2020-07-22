@@ -1,14 +1,13 @@
 #from app import app
 import urllib.request,json
 #from .main import main
+from app.instance.config import NEWS_API_KEY,NEWS_API_BASE_URL
 
-
-News = news.News
+#News = news.News
 # Getting api key
-api_key = app.config['NEWS_API_KEY']
-
+api_key = NEWS_API_KEY
 # Getting the news base url
-base_url = app.config["NEWS_API_BASE_URL"]
+base_url = NEWS_API_BASE_URL
 def get_news(category):
     '''
     Function that gets the json response to our url request
