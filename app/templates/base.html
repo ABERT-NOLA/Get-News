@@ -1,4 +1,4 @@
-% extends 'bootstrap/base.html'%}
+{% extends 'bootstrap/base.html'%}
 
 <!-- Navbar block  --> 
 {% block navbar %}
@@ -14,6 +14,9 @@
         {% else %}
         <title> Welcome to the best news Review website </title>
         {% endif %}
+        {% block styles%}
+        <link rel="stylesheet" href="{{url_for('static',filename='css/style.css')}}"> 
+        {% endblock%}
     </head>
     <body>
         <!-- Content block -->

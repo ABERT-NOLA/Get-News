@@ -1,13 +1,20 @@
-{% macro displaynewsList(news_list) %}
+{% macro displaynewsList(sources_results) %}
 
-    {% for news in news_list %}
-        <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2 news-card">
-            <img src="{{ news.poster }}" alt="{{ news.title }} poster" class="img-responsive">
-            <li class="text-center">
-                <a href="/news/{{news.id}}">
-                    {{ news.title|truncate(10)}}</a>
-            </li>
+    {% for news in sources_results %}
+    <div class="container-fluid">
+        <div class="card-columns">
+            <div class="card">
+                <div class="card-header">
+            
+                <h4><a href="/news/{{news.id}}" style="text-decoration: none;color: aqua;">
+                    {{ news.name}}</a></h4>
+                </div>
+                <div class="card-body">
+                    <p>{{news.description}}</p>
+                </div>     
+            </div>
         </div>
+    </div>
 
     {% endfor %}
 

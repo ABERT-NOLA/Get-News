@@ -14,7 +14,8 @@ def index():
     entertainment_sources = get_sources('entertainment')
     title = "News Highlighter"
 
-    return render_template('index.html', title = title, sources = sources, sports_sources = sports_sources, technology_sources = technology_sources, entertainment_sources = entertainment_sources)
+    print(entertainment_sources)
+    return render_template('index.html', title = title, sources = sources, sports_sources = sports_sources, technology = technology_sources, entertainment_sources = entertainment_sources)
 @main.route('/sources/<id>')
 def articles(id):
     '''

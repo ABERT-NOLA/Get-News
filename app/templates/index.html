@@ -10,27 +10,14 @@
 {% block content %}
 <!-- Trending topics section  -->
 <h3> Trending topics</h3>
-<ul>
-   {% for trending_topic in popular %}
-       <li>{{ trending_topic.title}}</li>
-   {% endfor %}
-</ul>
+{{ macro.displaynewsList(technology)}}
 <!-- Business section  -->
 <h3> Business News </h3>
-<ul>
-   {% for business_section in upcoming %}
-       <li>{{ business_section.title}}</li>
-   {% endfor %}
-</ul>
+{{ macro.displaynewsList(sources)}}
 <!--  sports news section -->
 <h3>Sports News</h3>
-<ul>
-   {% for sports_news in now_showing %}
-       <li>{{ sports_news.title}}</li>
-   {% endfor %}
-</ul>
-{% block content %}
 
+{{ macro.displaynewsList(sports_sources)}}
 <div class="container">
     <form>
         <input type="text" name="news_query" placeholder="Search for a news" class="form-control">

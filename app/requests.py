@@ -1,7 +1,7 @@
 #from app import app
 import urllib.request,json
 #from .main import main
-
+from .models import Sources,Articles
 
 #News = news.News
 # Getting api key
@@ -37,7 +37,7 @@ def get_sources(category):
     Function that gets the json response to our url request
     '''
     get_sources_url = base_url.format(category, api_key)
-
+    print(get_sources_url)
     with urllib.request.urlopen(get_sources_url) as url:
         get_sources_data = url.read()
         get_sources_response = json.loads(get_sources_data)
@@ -45,25 +45,26 @@ def get_sources(category):
         sources_results = None
         if get_sources_response['sources']:
             sources_results_list = get_sources_response['sources']
-            sources_results = process_sources(sources_results_list)
+            sources_results = process_results(sources_results_list)
 
     return sources_results
 def process_results(news_list):
     
-    news_results = []
+    sources_results = []
     for news_item in news_list:
         id = news_item.get('id')
-        title = news_item.get('original_title')
-        overview = news_item.get('overview')
-        poster = news_item.get('poster_path')
-        vote_average = news_item.get('vote_average')
-        vote_count = news_item.get('vote_count')
+        name = news_item.get('name')
+        description = news_item.get('description')
+        url = news_item.get('url')
+        category = news_item.get('category')
+        language = news_item.get('language')
+        country = news_item.get('country')
 
-    if poster:
-        news_object = news(id,title,overview,poster,vote_average,vote_count)
-        news_results.append(news_object)
+        
+        news_object = Sources(id,name,description,url,category,language,country)
+        sources_results.append(news_object)
 
-    return news_results
+    return sources_results
 
 def search_news(news_name):
 
@@ -80,3 +81,18 @@ def search_news(news_name):
 
 
     return search_news_results
+
+def process_article_response(articles):
+    results_list = []
+
+    for article_item in articles:
+        author = article_item.get('author')
+        title = article_item.get('title')
+        desc = article_item.get('description')
+        image = article_item.get('urlToImage')
+        url = article_item.get('url')
+        source = article_item.get('source')['name']
+
+        article_object = Article(author, title, desc, image, url, source)
+        results_list.append(article_object)
+    return results_list
