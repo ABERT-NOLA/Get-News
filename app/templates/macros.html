@@ -6,7 +6,7 @@
             <div class="card">
                 <div class="card-header">
             
-                <h4><a href="/news/{{news.id}}" style="text-decoration: none;color: aqua;">
+                <h4><a href="/articles/{{news.id}}" style="text-decoration: none;color: aqua;">
                     {{ news.name}}</a></h4>
                 </div>
                 <div class="card-body">
@@ -19,3 +19,21 @@
     {% endfor %}
 
 {% endmacro %}
+{% macro display_Source_articles(source_articles) %} 
+<div class="container" id="articles"> 
+    <div class="row" > {% for art in source_articles %} 
+        <div class="col-sm-4"> 
+            <img src="{{art.urlToImage}}" alt="{{art.title}}" class="card-img-top img-responsive"> 
+            <div class="card info"> 
+                <div class="card-header title">
+                    <h4>{{art.title | truncate(58)}}</h4> 
+                </div> 
+                <div class="card-body"> 
+                    <p class="desc">{{art.description}}</p> 
+                    <p><a href="{{art.url}}">Read More....</a></p> 
+                </div> 
+            </div> 
+        </div> {% endfor %} 
+    </div> 
+</div> 
+{% endmacro %} 

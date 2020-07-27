@@ -1,5 +1,5 @@
 from . import main
-from ..requests import get_news, search_news,get_sources
+from ..requests import get_news, search_news,get_sources,articles_source
 from flask import render_template,request,redirect,url_for
 from ..models import Sources
 
@@ -26,3 +26,8 @@ def articles(sources):
     title = f'NH | {sources}'
 
     return render_template('articles.html', title = title, articles = articles)
+@main.route('/articles/<id>')
+def articleSearch(id):
+    all_articles = articles_source(id)
+    source = id
+    return render_template('articles.html', articles = all_articles, source = source) 

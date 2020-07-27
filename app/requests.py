@@ -8,10 +8,12 @@ from .models import Sources,Articles
 api_key = None
 # Getting the news base url
 base_url = None
+art_url = None
 def configure_requests(app):
     global api_key,base_url
     api_key = app.config['NEWS_API_KEY']
     base_url = app.config ['NEWS_API_BASE_URL']
+    art_url = app.config['NEWS_ARTICLES_APL_URL'] 
 
 def get_news(category):
 
@@ -86,17 +88,53 @@ def search_news(news_name):
 
     return search_news_results
 
-def process_article_response(articles):
-    results_list = []
+def get_articles(article):
+    articles_url = art_url.format(article,api_key)
+    with urllib.request.urlopen(articles_url) as url:
+        articles_data = url.read
+        articles_response = json.loads(articles_data)
+        articles_outcome = None
+        if articles_response['articles']:
+            articles_outcome_items = articles_response['articles']
+            articles_outcome = process_article_response(articles_outcome_items)
+    return articles_outcome
+
+def process_article_response(articles_list):
+    articles_outcome = []
 
     for article_item in articles:
         author = article_item.get('author')
         title = article_item.get('title')
         desc = article_item.get('description')
-        image = article_item.get('urlToImage')
+        urlToImage = article_item.get('urlToImage')
         url = article_item.get('url')
-        source = article_item.get('source')['name']
+        source = article_item.get('source')
+        publishedAt = article_item.get('publishedAt')
 
-        article_object = Article(author, title, desc, image, url, source)
-        results_list.append(article_object)
-    return results_list
+        article_object = Article(author, title, desc, urlToImage, url, source)
+        articles_outcome.append(article_object)
+    return articles_outcome
+
+def articles_source(source):
+    sources_a_url = 'https://newsapi.org/v2/everything?sources={}&apiKey={}'.format(source,api_key)
+    with urllib.request.urlopen(sources_a_url) as url: 
+        art_data = url.read() 
+        response = json.loads(art_data) 
+        source_articles = None 
+        if response['articles']: 
+            source_articles_list = response['articles'] 
+            source_articles = process_articles_source(source_articles_list) 
+    return source_articles 
+def process_articles_source(article_list): 
+    source_articles = [] 
+    for article_item in article_list: 
+        source = article_item.get("source") 
+        author = article_item.get('author') 
+        title = article_item.get('title') 
+        description = article_item.get('description') 
+        url = article_item.get('url') 
+        urlToImage = article_item.get('urlToImage') 
+        publishedAt = article_item.get('publishedAt') 
+        article_object = Articles(source,author,title,description,url,urlToImage,publishedAt) 
+        source_articles.append(article_object) 
+    return source_articles 
